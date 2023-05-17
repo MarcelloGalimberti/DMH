@@ -1,37 +1,57 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[5]:
 
 
 import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import io
+import requests
 
 
-# In[2]:
+# In[14]:
 
 
-df_tempi_opt = pd.read_excel('/Users/marcello_galimberti/Documents/Marcello Galimberti/ADI business consulting/Offerte 2023/Ducati 2023/ASC/Simulazione/db_tempi_opt_reale.xlsx',
-                            index_col = 'Bundle')
+url = 'https://github.com/MarcelloGalimberti/DMH/blob/main/db_tempi_opt_reale.xlsx?raw=true'
 
 
-# In[3]:
+# In[17]:
 
 
+df_tempi_opt = pd.read_excel(url)
+
+
+# In[ ]:
+
+
+# https://github.com/MarcelloGalimberti/DMH/blob/main/db_tempi_opt_reale.xlsx
+
+
+# In[ ]:
+
+
+
+
+
+# In[19]:
+
+
+st.title('MTSV4 MTO Factory Feasibility')
 st.write('Database delta tempi bundle')
 st.write(df_tempi_opt)
 
 
-# In[4]:
+# In[20]:
 
 
 stgr_installati = st.slider('stgr installati',0,50,(25))
 linea_installati = st.slider('linea installati',0,50,(43))
 
 
-# In[5]:
+# In[21]:
 
 
 data = {
@@ -41,7 +61,7 @@ data = {
 df = pd.DataFrame(data)
 
 
-# In[9]:
+# In[22]:
 
 
 # Set the Seaborn style and color palette
@@ -49,14 +69,14 @@ sns.set_style('dark')
 sns.set_palette(sns.color_palette("Reds"))
 
 
-# In[10]:
+# In[23]:
 
 
 fig, ax = plt.subplots()
 sns.barplot(x='Area_Produzione', y='Risorse', data=df, ax=ax)
 ax.set_xlabel('Area Produzione')
 ax.set_ylabel('Risorse')
-ax.set_title('Bar Chart')
+ax.set_title('Risorse installate')
 
 # Add labels to the bars
 for p in ax.patches:
@@ -64,7 +84,7 @@ for p in ax.patches:
                 ha = 'center', va = 'center', xytext = (0, 10), textcoords = 'offset points', color='white')
 
 
-# In[12]:
+# In[24]:
 
 
 st.pyplot(fig)
