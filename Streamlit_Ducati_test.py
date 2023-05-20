@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
+# In[1]:
 
 
 import streamlit as st
@@ -10,18 +10,21 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import io
 import requests
+import plotly.express as px
 
+
+# #### Importo databse
 
 # In[14]:
 
 
-url = 'https://github.com/MarcelloGalimberti/DMH/blob/main/db_tempi_opt_reale.xlsx?raw=true'
+url_tempi_opt = 'https://github.com/MarcelloGalimberti/DMH/blob/main/db_tempi_opt_reale.xlsx?raw=true'
 
 
 # In[17]:
 
 
-df_tempi_opt = pd.read_excel(url)
+df_tempi_opt = pd.read_excel(url_tempi_opt)
 
 
 # In[ ]:
@@ -30,10 +33,32 @@ df_tempi_opt = pd.read_excel(url)
 # https://github.com/MarcelloGalimberti/DMH/blob/main/db_tempi_opt_reale.xlsx
 
 
-# In[ ]:
+# In[2]:
 
 
+url_take_rate = 'https://github.com/MarcelloGalimberti/DMH/blob/main/db_take_rate.xlsx?raw=true'
 
+
+# In[3]:
+
+
+df_take_rate = pd.read_excel(url_take_rate)
+
+
+# #### Creo sunburst del take rate
+
+# In[5]:
+
+
+fig = px.sunburst(df_take_rate,
+                 path=['Versione','Optional'],
+                 values = '%_Optional',
+                 color='%_Optional',
+                 color_continuous_scale="reds",
+                 title = 'Take rate',
+                 width=850, height=750)
+fig.update_layout(paper_bgcolor="rgb(0,0,0,0)",
+                 font_color="white")
 
 
 # In[19]:
@@ -42,6 +67,18 @@ df_tempi_opt = pd.read_excel(url)
 st.title('MTSV4 MTO Factory Feasibility')
 st.write('Database delta tempi bundle')
 st.write(df_tempi_opt)
+
+
+# In[7]:
+
+
+st.plotly_chart(fig, theme=None, use_container_width=True)
+
+
+# In[ ]:
+
+
+
 
 
 # In[20]:
@@ -87,7 +124,7 @@ for p in ax.patches:
 # In[24]:
 
 
-st.pyplot(fig)
+st.pyplot(fig,use_container_width=True)
 
 
 # In[ ]:
